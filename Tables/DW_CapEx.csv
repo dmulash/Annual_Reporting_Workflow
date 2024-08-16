@@ -1,0 +1,5 @@
+Parameter,Residential,Commercial,Large,Units
+Wind Turbine CapEx,"3,823","3,723","2,392",$2022/kW
+BOS CapEx,"4,602","2,604",878,$2022/kW
+Total CapEx,"8,425","6,327","3,270",$2022/kW
+OpEx,39,39,39,$2022/kW/yr
