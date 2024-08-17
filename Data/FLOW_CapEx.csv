@@ -1,0 +1,16 @@
+﻿CapEx Component,CapEx Category,Value ($2022/kW),Color
+Construction Insurance,Soft Costs,58.90198851,thistle
+Decomissioning,Soft Costs,147.3393968,rebeccapurple
+Construction Financing,Soft Costs,254.9401646,darkviolet
+Procurement Contingency,Soft Costs,245.3968103,mediumorchid
+Install. Contingency ,Soft Costs,294.6787937,plum
+Project Completion ,Soft Costs,58.90198851,darkmagenta
+Array System,Balance of System,251.0946757,aqua
+Export System,Balance of System,142.843302,darkturquoise
+Offshore Substation,Balance of System,187.4795121,dodgerblue
+Substructure,Balance of System,1188.642991,paleturquoise
+Mooring System,Balance of System,519.4230959,darkblue
+Installation,Balance of System,854.1414309,steelblue
+Project,Balance of System,98.28248515,lightskyblue
+Lease Price,Balance of System,166.6666667,darkcyan
+Turbine,Turbine,1700,olivedrab

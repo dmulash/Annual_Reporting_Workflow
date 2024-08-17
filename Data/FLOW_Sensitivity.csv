@@ -1,0 +1,6 @@
+﻿Key Parameters for LCOE Sensitivity Analysis,min LCOE,base LCOE,max LCOE,min value,base value,max value,color
+CapEx ($/kW),115,145,170,4627,6169,7711,darkblue
+OpEx ($/kW/year),135,145,160,43,87,130,grey
+Net Capacity Factor (%),100,145,160,55,38.2,35,lightskyblue
+Discount Rate (nominal) [%],125,145,165,4.67,6.23,7.79,lightgreen
+Project Design Life (Years),110,145,170,35,25,15,orange

@@ -1,0 +1,15 @@
+﻿CapEx Component,CapEx Category,Value ($2022/kW),Fixed charge rate (FCR) (real),Value ($2022/kW-yr),Net AEP (MWh/kW/yr),Value ($2022/MWh)
+Rotor,Turbine,300,0.0673,20.19,4.1,4.924390244
+Nacelle,Turbine,424,0.0673,28.5352,4.1,6.959804878
+Tower,Turbine,245,0.0673,16.4885,4.1,4.021585366
+Eng. and Development,Balance of System CapEx,32,0.0673,2.1536,4.1,0.525268293
+Project Management,Balance of System CapEx,12,0.0673,0.8076,4.1,0.19697561
+Foundation,Balance of System CapEx,106,0.0673,7.1338,4.1,1.73995122
+Site Access and Staging,Balance of System CapEx,42,0.0673,2.8266,4.1,0.689414634
+Assembly and Installation,Balance of System CapEx,89,0.0673,5.9897,4.1,1.460902439
+Electrical Infrastructure,Balance of System CapEx,64,0.0673,4.3072,4.1,1.050536585
+Wind Turbine Transport,Balance of System CapEx,172,0.0673,11.5756,4.1,2.823317073
+Construction Finance,Financial CapEx,102,0.0673,6.8646,4.1,1.674292683
+Contingency,Financial CapEx,48,0.0673,3.2304,4.1,0.787902439
+Wind Turbine Warranty,Financial CapEx,115,0.0673,7.7395,4.1,1.887682927
+Operational Expenditure,OpEx,,,41,4.1,10
