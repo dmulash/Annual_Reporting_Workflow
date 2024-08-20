@@ -2,6 +2,83 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
+def plot_GPRA_data(fig_name, target, old_target, text_old_target, actuals):
+    # Unpack target data
+    target_values, target_years = zip(*target)
+    # Unpack actuals data
+    actual_values, actual_years = zip(*actuals)
+    
+    # Combine all values to find the maximum value for setting the y-axis limit
+    all_values = list(target_values) + list(actual_values) + [old_target[0]]
+    max_value = max(all_values)
+    
+    # Determine the full range of years
+    min_year = min(target_years + actual_years)
+    max_year = max(target_years + actual_years)
+    all_years = list(range(min_year, max_year + 1))
+    
+    # Create the plot
+    fig, ax = plt.subplots(figsize=(11, 5))
+    
+    # Factor depending on max value
+    factor = max_value / 40
+    
+    # Plot target data with thicker line and circle markers
+    plt.plot(target_years, target_values, color='dodgerblue', linestyle='-', marker='o', markersize=7, markeredgecolor='black', markerfacecolor='black', linewidth=3, label='GPRA Target')
+    
+    # Add text annotations for target data
+    for year, value in zip(target_years, target_values):
+        plt.text(year, value + factor * 0.9, f'{value}', fontsize=9, color='dodgerblue', ha='center', va='bottom')
+    
+    # Plot actuals data with thicker line and diamond marker
+    plt.plot(actual_years, actual_values, color='olivedrab', linestyle='-', marker='D', markersize=8, markeredgecolor='black', linewidth=3, label='Actuals')
+    
+    # Add text annotations for actuals data
+    for year, value in zip(actual_years, actual_values):
+        plt.text(year, value - factor * 3, f'{value}', fontsize=9, color='olivedrab', ha='center', va='bottom')
+    
+    # Plot old_target data with diamond marker
+    old_target_value, old_target_year = old_target
+    plt.plot(old_target_year, old_target_value, color='black', marker='D', markersize=8, markeredgecolor='black', markerfacecolor='black', linewidth=0, label=text_old_target)
+    
+    # Add text annotation for old_target data
+    plt.text(old_target_year, old_target_value + factor * 0.9, f'{old_target_value}', fontsize=9, color='black', ha='center', va='bottom')
+    
+    # Set axis labels
+    plt.xlabel('Fiscal Year')
+    plt.ylabel('Levelized Cost of Energy (2023$/MWh)')
+    
+    # Set y-axis limit: bottom is 0 and top is 10 more than the max value
+    plt.ylim(bottom=0, top=max_value + 10)
+    
+    # Ensure every year from min_year to max_year is shown on the x-axis
+    plt.xticks(all_years)
+    
+    # Define y-ticks based on max_value
+    if max_value <= 50:
+        # Generate ticks for max_value ≤ 50
+        new_ticks = np.arange(0, max_value + 10, 5)
+    else:
+        # Generate ticks for max_value > 50
+        new_ticks = np.arange(0, max_value + 20, 10)
+    
+    plt.yticks(new_ticks)
+    
+    # Add a legend
+    plt.legend()
+    
+    # Show only horizontal gridlines
+    plt.grid(axis='y')
+    
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    
+    plt.tight_layout()
+    
+    plt.savefig("Figures/" + fig_name+ '.png', format='png', dpi=300)
+    
+    # Show plot
+    plt.show()
 def plot_capex_donut(technology, df, start_angle, width, height):
     # Calculate the total value
     total_value = df['Value ($2022/kW)'].sum()
