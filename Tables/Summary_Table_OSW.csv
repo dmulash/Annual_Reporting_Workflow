@@ -3,6 +3,6 @@ Parameter,Units,Utility Scale (Fixed-Bottom),Utility Scale (Floating)
 Wind turbine rating,MW,12.0,12.0
 Capital expenditures (CapEx),$/kW,"4,640","6,169"
 Fixed charge rate (FCR) (real),%,6.48,6.48
-Operational expenditures (OpEx),$/kW/yr,108,87
+Operational expenditures (OpEx),$/kW/yr,109,87
 Net annual energy production,MWh/MW/yr,"4,295","3,346"
 Levelized cost of energy (LCOE),$/MWh,95,145

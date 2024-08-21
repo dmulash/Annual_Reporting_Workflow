@@ -285,12 +285,53 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     import pandas as pd
     import matplotlib.pyplot as plt
 
-    # Extract data
-    components = df['CapEx Component']
-    values = df['Value ($2022/MWh)']
-    total_lcoe = values.sum()
-    categories = df['CapEx Category']
+    # Preprocess the DataFrame
+    maintenance_components = ["Labor (technicians)", "Materials", "Equipment (vessels)"]
+    operations_components = ["Management administration", "Insurance", "Port fees"]
+
+    # Replace specific components with 'Maintenance' and 'Operations'
+    df['CapEx Component'] = df['CapEx Component'].replace({
+        **dict.fromkeys(maintenance_components, 'Maintenance'),
+        **dict.fromkeys(operations_components, 'Operations')
+    })
+
+    # Group by 'CapEx Component' and sum the values
+    df_grouped = df.groupby(['CapEx Component', 'CapEx Category']).agg({'Value ($2022/MWh)': 'sum'}).reset_index()
+
+    # Ensure 'Maintenance' and 'Operations' are aggregated under 'OpEx' category
+    df_grouped['CapEx Category'] = df_grouped['CapEx Component'].apply(
+        lambda x: 'OpEx' if x in ['Maintenance', 'Operations'] else df_grouped[df_grouped['CapEx Component'] == x]['CapEx Category'].values[0]
+    )
+
+    # Aggregate values for 'Maintenance' and 'Operations' under 'OpEx'
+    df_grouped_aggregated = df_grouped.groupby(['CapEx Category', 'CapEx Component']).agg({'Value ($2022/MWh)': 'sum'}).reset_index()
+
+    # Separate the 'OpEx' components
+    op_ex_components = df_grouped_aggregated[df_grouped_aggregated['CapEx Category'] == 'OpEx']
+    non_op_ex_components = df_grouped_aggregated[df_grouped_aggregated['CapEx Category'] != 'OpEx']
+
+    # Concatenate non-'OpEx' components first, then 'OpEx' components
+    df_non_op_ex = pd.concat([non_op_ex_components], ignore_index=True)
     
+    # Ensure 'Operations' comes before 'Maintenance'
+    df_op_ex_sorted = op_ex_components.sort_values(by='CapEx Component', key=lambda x: x.map({'Operations': 0, 'Maintenance': 1}))
+    df_final = pd.concat([df_non_op_ex, df_op_ex_sorted], ignore_index=True)
+
+    # Define the desired order for CapEx Categories
+    category_order = ['Turbine', 'Balance of System CapEx', 'Financial CapEx', 'OpEx', 'Total']
+    
+    # Sort the DataFrame according to the defined order
+    df_final['CapEx Category'] = pd.Categorical(df_final['CapEx Category'], categories=category_order, ordered=True)
+    df_final = df_final.sort_values('CapEx Category')
+
+    # Extract data
+    components = df_final['CapEx Component']
+    values = df_final['Value ($2022/MWh)']
+    categories = df_final['CapEx Category']
+
+    # Calculate total LCOE
+    total_lcoe = values.sum()
+
     # Append 'Total LCOE' to components and values
     components = pd.concat([components, pd.Series('LCOE')], ignore_index=True)
     values = pd.concat([values, pd.Series(total_lcoe)], ignore_index=True)
@@ -397,8 +438,6 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
 
         for boundary in category_boundaries:
             ax.axvline(boundary, color='grey', linewidth=1.2, zorder=1)
-
-
 
     # Setting labels and title
     ax.set_xticks(bar_positions)
@@ -596,3 +635,86 @@ def save_technology_tables(df):
     land_based_df.to_csv('Tables/Summary_Table_LBW.csv', index=False)
     offshore_df.to_csv('Tables/Summary_Table_OSW.csv', index=False)
     distributed_df.to_csv('Tables/Summary_Table_DW.csv', index=False)
+    
+    
+def create_offshore_opex_summary_table(fixed_df, floating_df):
+    
+    # Define a dictionary to hold summary data
+    summary = {
+        "Parameter": [],
+        "Fixed Value ($/kW-yr)": [],
+        "Floating Value ($/kW-yr)": []
+    }
+
+    # Define categories to summarize
+    op_ex_categories = {
+        "Maintenance": ["Labor (technicians)", "Materials", "Equipment (vessels)"],
+        "Operations": ["Management administration", "Port fees", "Insurance"]
+    }
+
+    # Function to get the total value for a given item
+    def get_total_value(df, item):
+        # Ensure the item is correctly specified
+        if 'CapEx Component' in df.columns:
+            values = df[df['CapEx Component'] == item]['Value ($2022/kW-yr)']
+            return values.sum() if not values.empty else 0
+        else:
+            print("Error: 'CapEx Component' column is missing.")
+            return 0
+
+    # Add values for Maintenance and Operations
+    for category, items in op_ex_categories.items():
+        summary["Parameter"].append(category)
+        fixed_total = sum(get_total_value(fixed_df, item) for item in items)
+        floating_total = sum(get_total_value(floating_df, item) for item in items)
+        summary["Fixed Value ($/kW-yr)"].append(fixed_total)
+        summary["Floating Value ($/kW-yr)"].append(floating_total)
+
+        # Add details for each item
+        for item in items:
+            fixed_value = get_total_value(fixed_df, item)
+            floating_value = get_total_value(floating_df, item)
+            summary["Parameter"].append(f"  {item}")
+            summary["Fixed Value ($/kW-yr)"].append(fixed_value)
+            summary["Floating Value ($/kW-yr)"].append(floating_value)
+
+    # Add total OpEx
+    total_fixed_op_ex = sum([summary["Fixed Value ($/kW-yr)"][i] for i in range(len(summary["Parameter"])) if summary["Parameter"][i] in op_ex_categories])
+    total_floating_op_ex = sum([summary["Floating Value ($/kW-yr)"][i] for i in range(len(summary["Parameter"])) if summary["Parameter"][i] in op_ex_categories])
+    
+    summary["Parameter"].append("Total OpEx")
+    summary["Fixed Value ($/kW-yr)"].append(total_fixed_op_ex)
+    summary["Floating Value ($/kW-yr)"].append(total_floating_op_ex)
+
+    # Create DataFrame from summary
+    summary_df = pd.DataFrame(summary)
+
+    return summary_df
+
+
+def create_landbased_opex_summary_table(df):
+    # Strip any leading or trailing spaces from column names
+    df.columns = df.columns.str.strip()
+    
+    # Filter out the row with 'Operational Expenditure'
+    operational_expenditures = df[df['CapEx Category'] == 'OpEx']
+    
+    if operational_expenditures.empty:
+        raise ValueError("No Operational Expenditure data found in the DataFrame.")
+    
+    
+    # Extract necessary values (check column names here)
+    try:
+        value = operational_expenditures.iloc[0]['Value ($2022/kW-yr)']
+    except KeyError:
+        value = operational_expenditures.iloc[0]['Value ($2022/kW)']  # Adjust if necessary
+    unit = '$/kW/yr'
+    
+    # Create a new DataFrame with the desired format
+    result_df = pd.DataFrame({
+        'Parameter': ['Operational Expenditures'],
+        'Value': [value],
+        'Unit': [unit]
+    })
+    
+    return result_df

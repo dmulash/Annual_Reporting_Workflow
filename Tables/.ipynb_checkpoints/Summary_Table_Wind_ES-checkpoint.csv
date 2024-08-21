@@ -1,0 +1,8 @@
+,,Land-Based,Offshore,Offshore,Distributed,Distributed,Distributed
+Parameter,Units,Utility Scale,Utility Scale (Fixed-Bottom),Utility Scale (Floating),Single Turbine (Residential),Single Turbine (Commercial),Single Turbine (Large)
+Wind turbine rating,MW,3.3,12.0,12.0,20 (kW),100 (kW),1.5
+Capital expenditures (CapEx),$/kW,"1,751","4,640","6,169","8,425","6,327","3,270"
+Fixed charge rate (FCR) (real),%,6.73,6.48,6.48,6.73,6.73,6.73
+Operational expenditures (OpEx),$/kW/yr,41,109,87,39,39,39
+Net annual energy production,MWh/MW/yr,"4,100","4,295","3,346","2,580","2,846","3,326"
+Levelized cost of energy (LCOE),$/MWh,39,95,145,235,163,78

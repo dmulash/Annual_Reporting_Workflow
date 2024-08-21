@@ -14,5 +14,9 @@ Construction Financing,Financial CapEx,254.9401646,0.0648,16.52012267,3.34632,4.
 Procurement Contingency,Financial CapEx,245.3968103,0.0648,15.90171331,3.34632,4.752000199
 Install. Contingency ,Financial CapEx,294.6787937,0.0648,19.09518583,3.34632,5.706323911
 Project Completion ,Financial CapEx,58.90198851,0.0648,3.816848855,3.34632,1.140610837
-Operations,OpEx,,,30.1,3.34632,8.994955653
-Maintenance,OpEx,,,56.44975816,3.34632,16.86920503
+Labor (technicians),OpEx,,,4,3.34632,1.195342944
+Materials,OpEx,,,3,3.34632,0.896507208
+Equipment (vessels),OpEx,,,49,3.34632,14.64295106
+Management administration,OpEx,,,2,3.34632,0.597671472
+Port fees,OpEx,,,14,3.34632,4.183700304
+Insurance,OpEx,,,15,3.34632,4.48253604

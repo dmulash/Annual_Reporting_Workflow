@@ -1,0 +1,22 @@
+﻿CapEx Component,CapEx Category,Value ($2022/kW),Fixed charge rate (FCR) (real),Value ($2022/kW-yr),Net AEP (MWh/kW/yr),Value ($2022/MWh)
+Turbine,Turbine,1700,0.0648,110.16,3.34632,32.91974467
+Array System,Balance of System CapEx,251.0946757,0.0648,16.27093498,3.34632,4.862336831
+Export System,Balance of System CapEx,142.843302,0.0648,9.256245968,3.34632,2.766097076
+Offshore Substation,Balance of System CapEx,187.4795121,0.0648,12.14867239,3.34632,3.630457454
+Substructure,Balance of System CapEx,1188.642991,0.0648,77.02406582,3.34632,23.0175434
+Mooring System,Balance of System CapEx,519.4230959,0.0648,33.65861661,3.34632,10.05839747
+Installation,Balance of System CapEx,854.1414309,0.0648,55.34836472,3.34632,16.54006931
+Project,Balance of System CapEx,98.28248515,0.0648,6.368705037,3.34632,1.903196657
+Lease Price,Balance of System CapEx,166.6666667,0.0648,10.8,3.34632,3.227425949
+Construction Insurance,Financial CapEx,58.90198851,0.0648,3.816848855,3.34632,1.140610837
+Decomissioning,Financial CapEx,147.3393968,0.0648,9.547592914,3.34632,2.853161955
+Construction Financing,Financial CapEx,254.9401646,0.0648,16.52012267,3.34632,4.936803015
+Procurement Contingency,Financial CapEx,245.3968103,0.0648,15.90171331,3.34632,4.752000199
+Install. Contingency ,Financial CapEx,294.6787937,0.0648,19.09518583,3.34632,5.706323911
+Project Completion ,Financial CapEx,58.90198851,0.0648,3.816848855,3.34632,1.140610837
+Labor (technicians),OpEx,,,4,3.34632,1.195342944
+Materials,OpEx,,,3,3.34632,0.896507208
+Equipment (vessels),OpEx,,,49,3.34632,14.64295106
+Management administration,OpEx,,,2,3.34632,0.597671472
+Port fees,OpEx,,,14,3.34632,4.183700304
+Insurance,OpEx,,,15,3.34632,4.48253604
