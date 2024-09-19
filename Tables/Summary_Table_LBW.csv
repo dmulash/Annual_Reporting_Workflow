@@ -1,8 +1,8 @@
 ,,Land-Based
 Parameter,Units,Utility Scale
 Wind turbine rating,MW,3.3
-Capital expenditures (CapEx),$/kW,"1,751"
-Fixed charge rate (FCR) (real),%,6.73
-Operational expenditures (OpEx),$/kW/yr,41
-Net annual energy production,MWh/MW/yr,"4,100"
-Levelized cost of energy (LCOE),$/MWh,39
+Capital expenditures (CapEx),$/kW,"1,968"
+Fixed charge rate (FCR) (real),%,6.50
+Operational expenditures (OpEx),$/kW/yr,43
+Net annual energy production,MWh/MW/yr,"4,104"
+Levelized cost of energy (LCOE),$/MWh,42

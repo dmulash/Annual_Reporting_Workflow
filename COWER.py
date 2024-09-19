@@ -18,35 +18,35 @@ def plot_GPRA_data(fig_name, target, old_target, text_old_target, actuals):
     all_years = list(range(min_year, max_year + 1))
     
     # Create the plot
-    fig, ax = plt.subplots(figsize=(11, 5))
+    fig, ax = plt.subplots(figsize=(8, 4))
     
     # Factor depending on max value
     factor = max_value / 40
     
     # Plot target data with thicker line and circle markers
-    plt.plot(target_years, target_values, color='dodgerblue', linestyle='-', marker='o', markersize=7, markeredgecolor='black', markerfacecolor='black', linewidth=3, label='GPRA Target')
+    plt.plot(target_years, target_values, color='royalblue', linestyle='--', marker='o', markersize=10, markeredgecolor='black', markerfacecolor='black', linewidth=2, label='GPRA Target')
     
     # Add text annotations for target data
     for year, value in zip(target_years, target_values):
-        plt.text(year, value + factor * 0.9, f'{value}', fontsize=9, color='dodgerblue', ha='center', va='bottom')
+        plt.text(year, value + factor * 0.9, f'{value:.0f}', fontsize=9, color='black', ha='center', va='bottom')
     
     # Plot actuals data with thicker line and diamond marker
-    plt.plot(actual_years, actual_values, color='olivedrab', linestyle='-', marker='D', markersize=8, markeredgecolor='black', linewidth=3, label='Actuals')
+    plt.plot(actual_years, actual_values, color='grey', linestyle='-', marker='D', markersize=6, markeredgecolor='black',markerfacecolor='black', linewidth=2, label='Actuals')
     
     # Add text annotations for actuals data
     for year, value in zip(actual_years, actual_values):
-        plt.text(year, value - factor * 3, f'{value}', fontsize=9, color='olivedrab', ha='center', va='bottom')
+        plt.text(year, value + factor * 0.9, f'{value:.0f}', fontsize=9, color='black', ha='center', va='bottom')
     
     # Plot old_target data with diamond marker
     old_target_value, old_target_year = old_target
-    plt.plot(old_target_year, old_target_value, color='black', marker='D', markersize=8, markeredgecolor='black', markerfacecolor='black', linewidth=0, label=text_old_target)
+    plt.plot(old_target_year, old_target_value, color='black', marker='x', markersize=12, markeredgecolor='black', markerfacecolor='black', linewidth=0, label=text_old_target)
     
     # Add text annotation for old_target data
-    plt.text(old_target_year, old_target_value + factor * 0.9, f'{old_target_value}', fontsize=9, color='black', ha='center', va='bottom')
+    plt.text(old_target_year, old_target_value + factor * 0.9, f'{old_target_value:.0f}', fontsize=9, color='black', ha='center', va='bottom')
     
     # Set axis labels
     plt.xlabel('Fiscal Year')
-    plt.ylabel('Levelized Cost of Energy (2023$/MWh)')
+    plt.ylabel('Levelized Cost of Energy (2022$/MWh)')
     
     # Set y-axis limit: bottom is 0 and top is 10 more than the max value
     plt.ylim(bottom=0, top=max_value + 10)
@@ -79,12 +79,14 @@ def plot_GPRA_data(fig_name, target, old_target, text_old_target, actuals):
     
     # Show plot
     plt.show()
+    
+    
 def plot_capex_donut(technology, df, start_angle, width, height):
     # Calculate the total value
-    total_value = df['Value ($2022/kW)'].sum()
+    total_value = df['Value ($/kW)'].sum()
 
     # Add a new column with the percentage of the total value for each category
-    df['% of Total'] = (df['Value ($2022/kW)'] / total_value) * 100
+    df['% of Total'] = (df['Value ($/kW)'] / total_value) * 100
 
     # Calculate total percentage per category
     category_totals = df.groupby('CapEx Category')['% of Total'].sum()
@@ -175,7 +177,7 @@ def plot_capex_donut(technology, df, start_angle, width, height):
         total_percentage = category_totals[category]
 
         # Add the label inside the donut
-        ax.text(x, y, f'{category}\n{total_percentage:.1f}%', ha='center', va='center', fontsize=12, weight='bold', color='black')
+        ax.text(x, y, f'{category}\n{total_percentage:.1f}%', ha='center', va='center', fontsize=13, weight='bold', color='black')
 
     # Add a legend for CapEx Categories
     category_labels = df['CapEx Category'].unique()
@@ -197,7 +199,7 @@ def plot_capex_donut(technology, df, start_angle, width, height):
     plt.savefig("Figures/" + technology + '_capex_donut.png', format='png', dpi=300)
     plt.show()
 
-def plot_LCOE_sensitivity(technology, df, width=10, height=6, x_min=None, x_max=None):
+def plot_LCOE_sensitivity(technology, df, width=10, height=6, x_min=None, x_max=None): 
     import matplotlib.pyplot as plt
     import numpy as np
 
@@ -227,7 +229,7 @@ def plot_LCOE_sensitivity(technology, df, width=10, height=6, x_min=None, x_max=
     reference_line = ax.axvline(x=reference_LCOE, color='white', linewidth=2, zorder=4)
     
     # Adding a legend for the reference LCOE line with a grey background
-    ax.legend([reference_line], [f"Reference LCOE = ${reference_LCOE:,.2f}/MWh"], 
+    ax.legend([reference_line], [f"Reference LCOE = ${reference_LCOE:,.0f}/MWh"], 
               loc='best', fontsize=8, frameon=True, facecolor='lightgrey')
 
     # Adding the min, base, and max values next to their respective bars in reverse order
@@ -242,9 +244,19 @@ def plot_LCOE_sensitivity(technology, df, width=10, height=6, x_min=None, x_max=
         # Min value label
         ax.text(row['min LCOE'] - 0.5, index, min_value, 
                 ha='right', va='center', color='black', fontsize=8)
-        # Base value label
-        ax.text(row['base LCOE'] + 0.2, index, base_value, 
-                ha='left', va='center', color='white', fontsize=8, weight="bold")
+        
+        # Calculate the differences
+        diff_max_base = row['max LCOE'] - row['base LCOE']
+        diff_base_min = row['base LCOE'] - row['min LCOE']
+
+        # Base value label positioning
+        if diff_max_base > diff_base_min:
+            ax.text(row['base LCOE'] + 0.2, index, base_value, 
+                    ha='left', va='center', color='white', fontsize=8, weight="bold")
+        else:
+            ax.text(row['base LCOE'] - 0.5, index, base_value, 
+                    ha='right', va='center', color='white', fontsize=8, weight="bold")
+
         # Max value label
         ax.text(row['max LCOE'] + 0.5, index, max_value, 
                 ha='left', va='center', color='black', fontsize=8)
@@ -279,7 +291,6 @@ def plot_LCOE_sensitivity(technology, df, width=10, height=6, x_min=None, x_max=
     plt.savefig("Figures/" + technology + '_LCOE_sensitivity.png', format='png', dpi=300)
     plt.show()
 
-
 def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     import numpy as np
     import pandas as pd
@@ -296,7 +307,7 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     })
 
     # Group by 'CapEx Component' and sum the values
-    df_grouped = df.groupby(['CapEx Component', 'CapEx Category']).agg({'Value ($2022/MWh)': 'sum'}).reset_index()
+    df_grouped = df.groupby(['CapEx Component', 'CapEx Category']).agg({'Value ($/MWh)': 'sum'}).reset_index()
 
     # Ensure 'Maintenance' and 'Operations' are aggregated under 'OpEx' category
     df_grouped['CapEx Category'] = df_grouped['CapEx Component'].apply(
@@ -304,7 +315,7 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     )
 
     # Aggregate values for 'Maintenance' and 'Operations' under 'OpEx'
-    df_grouped_aggregated = df_grouped.groupby(['CapEx Category', 'CapEx Component']).agg({'Value ($2022/MWh)': 'sum'}).reset_index()
+    df_grouped_aggregated = df_grouped.groupby(['CapEx Category', 'CapEx Component']).agg({'Value ($/MWh)': 'sum'}).reset_index()
 
     # Separate the 'OpEx' components
     op_ex_components = df_grouped_aggregated[df_grouped_aggregated['CapEx Category'] == 'OpEx']
@@ -326,7 +337,7 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
 
     # Extract data
     components = df_final['CapEx Component']
-    values = df_final['Value ($2022/MWh)']
+    values = df_final['Value ($/MWh)']
     categories = df_final['CapEx Category']
 
     # Calculate total LCOE
@@ -373,8 +384,9 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     # Labeling bars with values
     for i, (pos, val) in enumerate(zip(bar_positions, bar_values)):
         alignment = 'center' if val > 0 else 'top'
-        if val == total_lcoe:
-            ax.text(pos, val + 0.5, f'{val:.1f}', ha='center', va='bottom', color='black', zorder=4)
+        if i == len(bar_values) - 1:
+            # Round total LCOE to integer for display
+            ax.text(pos, val + 0.5, f'{int(round(val))}', ha='center', va='bottom', color='black', zorder=4)
         else:
             ax.text(pos, base[i] + val + 0.5, f'{val:.1f}', ha='center', va='bottom', color='black', zorder=4)
 
@@ -442,7 +454,7 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     # Setting labels and title
     ax.set_xticks(bar_positions)
     ax.set_xticklabels(bar_labels, rotation=45, ha='right')
-    ax.set_ylabel('Levelized Cost of Energy ($2022/MWh)')
+    ax.set_ylabel('Levelized Cost of Energy ($2023/MWh)')
 
     # Equal aspect ratio ensures that pie is drawn as a circle.
     if "DW" in technology:
@@ -470,7 +482,7 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
 def capex_dataframe_dw(df_20kW, df_100kW, df_1500kW):
     # Initialize the DataFrame structure
     parameters = ['Wind Turbine CapEx', 'BOS CapEx', 'Total CapEx', 'OpEx']
-    units = ['$2022/kW', '$2022/kW', '$2022/kW', '$2022/kW/yr']
+    units = ['$2023/kW', '$2023/kW', '$2023/kW', '$2023/kW/yr']
     
     # Define the DataFrame for the result
     result_df = pd.DataFrame(columns=['Parameter', 'Residential', 'Commercial', 'Large', 'Units'])
@@ -479,18 +491,18 @@ def capex_dataframe_dw(df_20kW, df_100kW, df_1500kW):
 
     # Define a helper function to get the values for each DataFrame
     def get_capex_values(df, component):
-        if 'Value ($2022/kW)' in df.columns:
-            return df[df['CapEx Component'] == component]['Value ($2022/kW)'].sum()
+        if 'Value ($/kW)' in df.columns:
+            return df[df['CapEx Component'] == component]['Value ($/kW)'].sum()
         else:
-            raise KeyError("Column 'Value ($2022/kW)' not found in DataFrame")
+            raise KeyError("Column 'Value ($/kW)' not found in DataFrame")
 
     
 
     def get_opex_value(df):
-        if 'Value ($2022/kW-yr)' in df.columns:
-            return df[df['CapEx Component'] == 'OpEx']['Value ($2022/kW-yr)'].sum()
+        if 'Value ($/kW-yr)' in df.columns:
+            return df[df['CapEx Component'] == 'OpEx']['Value ($/kW-yr)'].sum()
         else:
-            raise KeyError("Column 'Value ($2022/kW-yr)' not found in DataFrame")
+            raise KeyError("Column 'Value ($/kW-yr)' not found in DataFrame")
 
     # Fill the DataFrame with the required values
     try:
@@ -531,16 +543,16 @@ def capex_dataframe(df):
 
     for category in df["CapEx Category"].unique()[::-1]:
         category_df = df[df["CapEx Category"] == category]
-        total_value = category_df["Value ($2022/kW)"].sum()
-        summary.append({"Parameter": f"Total {category}", "Value ($2022/kW)": total_value})
-        summary.extend(category_df[["CapEx Component", "Value ($2022/kW)"]].rename(columns={"CapEx Component": "Parameter"}).to_dict("records"))
+        total_value = category_df["Value ($/kW)"].sum()
+        summary.append({"Parameter": f"Total {category}", "Value ($/kW)": total_value})
+        summary.extend(category_df[["CapEx Component", "Value ($/kW)"]].rename(columns={"CapEx Component": "Parameter"}).to_dict("records"))
 
-    total_capex = df["Value ($2022/kW)"].sum()
-    summary.append({"Parameter": "Total CapEx", "Value ($2022/kW)": total_capex})
+    total_capex = df["Value ($/kW)"].sum()
+    summary.append({"Parameter": "Total CapEx", "Value ($/kW)": total_capex})
 
     summary_df = pd.DataFrame(summary)
 
-    summary_df["Value ($2022/kW)"] = summary_df["Value ($2022/kW)"].round().astype(int).apply(lambda x: f"{x:,}")
+    summary_df["Value ($/kW)"] = summary_df["Value ($/kW)"].round().astype(int).apply(lambda x: f"{x:,}")
 
     return summary_df
 
@@ -568,12 +580,12 @@ def wind_ES_summary_table(rating_landbased_MW, rating_offshore_MW):
          "Utility Scale (FLOW)":format_number(rating_offshore_MW,1), 
          "Residential (DW)": "20 (kW)", "Commercial (DW)": "100 (kW)", "Large (DW)": format_number(1.5,1)},
         {"Parameter": "Capital expenditures (CapEx)", "Units": "$/kW", 
-         "Utility Scale (LBW)": format_number(lbw_df['Value ($2022/kW)'].sum()), 
-         "Utility Scale (FBOW)": format_number(fbow_df['Value ($2022/kW)'].sum()), 
-         "Utility Scale (FLOW)": format_number(flow_df['Value ($2022/kW)'].sum()), 
-         "Residential (DW)": format_number(dw_20kW_df['Value ($2022/kW)'].sum()), 
-         "Commercial (DW)": format_number(dw_100kW_df['Value ($2022/kW)'].sum()), 
-         "Large (DW)": format_number(dw_1500kW_df['Value ($2022/kW)'].sum())},
+         "Utility Scale (LBW)": format_number(lbw_df['Value ($/kW)'].sum()), 
+         "Utility Scale (FBOW)": format_number(fbow_df['Value ($/kW)'].sum()), 
+         "Utility Scale (FLOW)": format_number(flow_df['Value ($/kW)'].sum()), 
+         "Residential (DW)": format_number(dw_20kW_df['Value ($/kW)'].sum()), 
+         "Commercial (DW)": format_number(dw_100kW_df['Value ($/kW)'].sum()), 
+         "Large (DW)": format_number(dw_1500kW_df['Value ($/kW)'].sum())},
         {"Parameter": "Fixed charge rate (FCR) (real)", "Units": "%", 
          "Utility Scale (LBW)": format_number(lbw_df['Fixed charge rate (FCR) (real)'].mean() * 100, 2), 
          "Utility Scale (FBOW)": format_number(fbow_df['Fixed charge rate (FCR) (real)'].mean() * 100, 2), 
@@ -582,12 +594,12 @@ def wind_ES_summary_table(rating_landbased_MW, rating_offshore_MW):
          "Commercial (DW)": format_number(dw_100kW_df['Fixed charge rate (FCR) (real)'].mean() * 100, 2), 
          "Large (DW)": format_number(dw_1500kW_df['Fixed charge rate (FCR) (real)'].mean() * 100, 2)},
         {"Parameter": "Operational expenditures (OpEx)", "Units": "$/kW/yr", 
-         "Utility Scale (LBW)": format_number(lbw_df.loc[lbw_df['CapEx Category'] == 'OpEx', 'Value ($2022/kW-yr)'].sum()), 
-         "Utility Scale (FBOW)": format_number(fbow_df.loc[fbow_df['CapEx Category'] == 'OpEx', 'Value ($2022/kW-yr)'].sum()), 
-         "Utility Scale (FLOW)": format_number(flow_df.loc[flow_df['CapEx Category'] == 'OpEx', 'Value ($2022/kW-yr)'].sum()), 
-         "Residential (DW)": format_number(dw_20kW_df.loc[dw_20kW_df['CapEx Category'] == 'OpEx', 'Value ($2022/kW-yr)'].sum()), 
-         "Commercial (DW)": format_number(dw_100kW_df.loc[dw_100kW_df['CapEx Category'] == 'OpEx', 'Value ($2022/kW-yr)'].sum()), 
-         "Large (DW)": format_number(dw_1500kW_df.loc[dw_1500kW_df['CapEx Category'] == 'OpEx', 'Value ($2022/kW-yr)'].sum())},
+         "Utility Scale (LBW)": format_number(lbw_df.loc[lbw_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Utility Scale (FBOW)": format_number(fbow_df.loc[fbow_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Utility Scale (FLOW)": format_number(flow_df.loc[flow_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Residential (DW)": format_number(dw_20kW_df.loc[dw_20kW_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Commercial (DW)": format_number(dw_100kW_df.loc[dw_100kW_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Large (DW)": format_number(dw_1500kW_df.loc[dw_1500kW_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum())},
         {"Parameter": "Net annual energy production", "Units": "MWh/MW/yr", 
          "Utility Scale (LBW)": format_number(lbw_df['Net AEP (MWh/kW/yr)'][0] * 1000), 
          "Utility Scale (FBOW)": format_number(fbow_df['Net AEP (MWh/kW/yr)'][0] * 1000), 
@@ -596,12 +608,12 @@ def wind_ES_summary_table(rating_landbased_MW, rating_offshore_MW):
          "Commercial (DW)": format_number(dw_100kW_df['Net AEP (MWh/kW/yr)'][0] * 1000), 
          "Large (DW)": format_number(dw_1500kW_df['Net AEP (MWh/kW/yr)'][0] * 1000)},
         {"Parameter": "Levelized cost of energy (LCOE)", "Units": "$/MWh", 
-         "Utility Scale (LBW)": format_number(lbw_df['Value ($2022/MWh)'].sum()), 
-         "Utility Scale (FBOW)": format_number(fbow_df['Value ($2022/MWh)'].sum()), 
-         "Utility Scale (FLOW)": format_number(flow_df['Value ($2022/MWh)'].sum()), 
-         "Residential (DW)": format_number(dw_20kW_df['Value ($2022/MWh)'].sum()), 
-         "Commercial (DW)": format_number(dw_100kW_df['Value ($2022/MWh)'].sum()), 
-         "Large (DW)": format_number(dw_1500kW_df['Value ($2022/MWh)'].sum())},
+         "Utility Scale (LBW)": format_number(lbw_df['Value ($/MWh)'].sum()), 
+         "Utility Scale (FBOW)": format_number(fbow_df['Value ($/MWh)'].sum()), 
+         "Utility Scale (FLOW)": format_number(flow_df['Value ($/MWh)'].sum()), 
+         "Residential (DW)": format_number(dw_20kW_df['Value ($/MWh)'].sum()), 
+         "Commercial (DW)": format_number(dw_100kW_df['Value ($/MWh)'].sum()), 
+         "Large (DW)": format_number(dw_1500kW_df['Value ($/MWh)'].sum())},
     ]
 
     # Create a DataFrame from the rows
@@ -656,7 +668,7 @@ def create_offshore_opex_summary_table(fixed_df, floating_df):
     def get_total_value(df, item):
         # Ensure the item is correctly specified
         if 'CapEx Component' in df.columns:
-            values = df[df['CapEx Component'] == item]['Value ($2022/kW-yr)']
+            values = df[df['CapEx Component'] == item]['Value ($/kW-yr)']
             return values.sum() if not values.empty else 0
         else:
             print("Error: 'CapEx Component' column is missing.")
@@ -665,22 +677,22 @@ def create_offshore_opex_summary_table(fixed_df, floating_df):
     # Add values for Maintenance and Operations
     for category, items in op_ex_categories.items():
         summary["Parameter"].append(category)
-        fixed_total = sum(get_total_value(fixed_df, item) for item in items)
-        floating_total = sum(get_total_value(floating_df, item) for item in items)
+        fixed_total = round(sum(get_total_value(fixed_df, item) for item in items))
+        floating_total = round(sum(get_total_value(floating_df, item) for item in items))
         summary["Fixed Value ($/kW-yr)"].append(fixed_total)
         summary["Floating Value ($/kW-yr)"].append(floating_total)
 
         # Add details for each item
         for item in items:
-            fixed_value = get_total_value(fixed_df, item)
-            floating_value = get_total_value(floating_df, item)
+            fixed_value = round(get_total_value(fixed_df, item))
+            floating_value = round(get_total_value(floating_df, item))
             summary["Parameter"].append(f"  {item}")
             summary["Fixed Value ($/kW-yr)"].append(fixed_value)
             summary["Floating Value ($/kW-yr)"].append(floating_value)
 
     # Add total OpEx
-    total_fixed_op_ex = sum([summary["Fixed Value ($/kW-yr)"][i] for i in range(len(summary["Parameter"])) if summary["Parameter"][i] in op_ex_categories])
-    total_floating_op_ex = sum([summary["Floating Value ($/kW-yr)"][i] for i in range(len(summary["Parameter"])) if summary["Parameter"][i] in op_ex_categories])
+    total_fixed_op_ex = round(sum([summary["Fixed Value ($/kW-yr)"][i] for i in range(len(summary["Parameter"])) if summary["Parameter"][i] in op_ex_categories]))
+    total_floating_op_ex = round(sum([summary["Floating Value ($/kW-yr)"][i] for i in range(len(summary["Parameter"])) if summary["Parameter"][i] in op_ex_categories]))
     
     summary["Parameter"].append("Total OpEx")
     summary["Fixed Value ($/kW-yr)"].append(total_fixed_op_ex)
@@ -705,15 +717,15 @@ def create_landbased_opex_summary_table(df):
     
     # Extract necessary values (check column names here)
     try:
-        value = operational_expenditures.iloc[0]['Value ($2022/kW-yr)']
+        value = operational_expenditures.iloc[0]['Value ($/kW-yr)']
     except KeyError:
-        value = operational_expenditures.iloc[0]['Value ($2022/kW)']  # Adjust if necessary
+        value = operational_expenditures.iloc[0]['Value ($/kW)']  # Adjust if necessary
     unit = '$/kW/yr'
     
     # Create a new DataFrame with the desired format
     result_df = pd.DataFrame({
         'Parameter': ['Operational Expenditures'],
-        'Value': [value],
+        'Value': [value.round().astype(int)],
         'Unit': [unit]
     })
     

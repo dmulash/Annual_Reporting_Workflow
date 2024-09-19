@@ -1,18 +1,18 @@
-Parameter,Value ($2022/kW)
-Total Turbine,969
-Tower,245
-Nacelle,424
-Rotor,300
-Total Balance of System,517
-Wind Turbine Transport,172
-Electrical Infrastructure,64
-Assembly and Installation,89
-Site Access and Staging,42
-Foundation,106
-Project Management,12
-Eng. and Development,32
-Total Soft Costs,265
-Wind Turbine Warranty,115
-Contingency,48
-Construction Finance,102
-Total CapEx,"1,751"
+Parameter,Value ($/kW)
+Total Turbine,"1,091"
+Tower,276
+Nacelle,477
+Rotor,337
+Total Balance of System,582
+Wind Turbine Transport,194
+Electrical Infrastructure,72
+Assembly and Installation,100
+Site Access and Staging,47
+Foundation,120
+Project Management,14
+Eng. and Development,36
+Total Soft Costs,295
+Wind Turbine Warranty,130
+Contingency,54
+Construction Finance,111
+Total CapEx,"1,968"

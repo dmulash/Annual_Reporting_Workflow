@@ -1,8 +1,8 @@
 ,,Distributed,Distributed,Distributed
 Parameter,Units,Single Turbine (Residential),Single Turbine (Commercial),Single Turbine (Large)
 Wind turbine rating,MW,20 (kW),100 (kW),1.5
-Capital expenditures (CapEx),$/kW,"8,425","6,327","3,270"
-Fixed charge rate (FCR) (real),%,6.73,6.73,6.73
-Operational expenditures (OpEx),$/kW/yr,39,39,39
+Capital expenditures (CapEx),$/kW,"8,665","6,800","3,362"
+Fixed charge rate (FCR) (real),%,6.68,6.68,6.68
+Operational expenditures (OpEx),$/kW/yr,41,41,41
 Net annual energy production,MWh/MW/yr,"2,580","2,846","3,326"
-Levelized cost of energy (LCOE),$/MWh,235,163,78
+Levelized cost of energy (LCOE),$/MWh,240,174,80

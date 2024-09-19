@@ -1,0 +1,14 @@
+﻿CapEx Component,CapEx Category,Value ($2022/kW),Color
+Wind Turbine Warranty,Soft Costs,115,thistle
+Contingency,Soft Costs,48,rebeccapurple
+Construction Finance,Soft Costs,102,darkviolet
+Wind Turbine Transport,Balance of System,172,aqua
+Electrical Infrastructure,Balance of System,64,darkturquoise
+Assembly and Installation,Balance of System,89,dodgerblue
+Site Access and Staging,Balance of System,42,paleturquoise
+Foundation,Balance of System,106,darkblue
+Project Management,Balance of System,12,steelblue
+Eng. and Development,Balance of System,32,lightskyblue
+Tower,Turbine,245,yellowgreen
+Nacelle,Turbine,424,olivedrab
+Rotor,Turbine,300,darkolivegreen

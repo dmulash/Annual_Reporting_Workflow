@@ -1,20 +1,20 @@
-Parameter,Value ($2022/kW)
-Total Turbine,"1,700"
-Turbine,"1,700"
-Total Balance of System,"2,130"
-Array System,210
-Export System,189
-Offshore Substation,187
-Scour Protection,20
-Substructure,589
-Installation,670
-Project,98
+Parameter,Value ($/kW)
+Total Turbine,"1,770"
+Turbine,"1,770"
+Total Balance of System,"2,629"
+Array System,251
+Export System,227
+Offshore Substation,243
+Scour Protection,25
+Substructure,764
+Project,123
+Installation,830
 Lease Price,167
-Total Soft Costs,810
-Construction Insurance,44
-Decommissioning,116
-Construction Financing,192
-Procurement Contingency,182
-Install. Contingency,231
-Project Completion,44
-Total CapEx,"4,640"
+Total Soft Costs,"1,012"
+Construction Insurance,55
+Decommissioning,145
+Construction Financing,240
+Procurement Contingency,228
+Project Completion,55
+Install. Contingency,289
+Total CapEx,"5,411"

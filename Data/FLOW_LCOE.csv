@@ -1,22 +1,22 @@
-﻿CapEx Component,CapEx Category,Value ($2022/kW),Fixed charge rate (FCR) (real),Value ($2022/kW-yr),Net AEP (MWh/kW/yr),Value ($2022/MWh)
-Turbine,Turbine,1700,0.0648,110.16,3.34632,32.91974467
-Array System,Balance of System CapEx,251.0946757,0.0648,16.27093498,3.34632,4.862336831
-Export System,Balance of System CapEx,142.843302,0.0648,9.256245968,3.34632,2.766097076
-Offshore Substation,Balance of System CapEx,187.4795121,0.0648,12.14867239,3.34632,3.630457454
-Substructure,Balance of System CapEx,1188.642991,0.0648,77.02406582,3.34632,23.0175434
-Mooring System,Balance of System CapEx,519.4230959,0.0648,33.65861661,3.34632,10.05839747
-Installation,Balance of System CapEx,854.1414309,0.0648,55.34836472,3.34632,16.54006931
-Project,Balance of System CapEx,98.28248515,0.0648,6.368705037,3.34632,1.903196657
+﻿CapEx Component,CapEx Category,Value ($/kW),Fixed charge rate (FCR) (real),Value ($/kW-yr),Net AEP (MWh/kW/yr),Value ($/MWh)
+Turbine,Turbine,1769.87,0.0648,114.687576,3.34632,34.27274618
+Array System,Balance of System CapEx,301.0294505,0.0648,19.5067084,3.34632,5.82930156
+Export System,Balance of System CapEx,171.2503086,0.0648,11.09702,3.34632,3.316186139
+Offshore Substation,Balance of System CapEx,242.982797,0.0648,15.74528525,3.34632,4.705253905
+Substructure,Balance of System CapEx,1540.540592,0.0648,99.82703037,3.34632,29.83188409
+Mooring System,Balance of System CapEx,651.094056,0.0648,42.19089483,3.34632,12.60814711
+Installation,Balance of System CapEx,1057.642782,0.0648,68.53525229,3.34632,20.48078256
+Project,Balance of System CapEx,123.1965663,0.0648,7.983137498,3.34632,2.38564677
 Lease Price,Balance of System CapEx,166.6666667,0.0648,10.8,3.34632,3.227425949
-Construction Insurance,Financial CapEx,58.90198851,0.0648,3.816848855,3.34632,1.140610837
-Decomissioning,Financial CapEx,147.3393968,0.0648,9.547592914,3.34632,2.853161955
-Construction Financing,Financial CapEx,254.9401646,0.0648,16.52012267,3.34632,4.936803015
-Procurement Contingency,Financial CapEx,245.3968103,0.0648,15.90171331,3.34632,4.752000199
-Install. Contingency ,Financial CapEx,294.6787937,0.0648,19.09518583,3.34632,5.706323911
-Project Completion ,Financial CapEx,58.90198851,0.0648,3.816848855,3.34632,1.140610837
-Labor (technicians),OpEx,,,4,3.34632,1.195342944
-Materials,OpEx,,,3,3.34632,0.896507208
-Equipment (vessels),OpEx,,,49,3.34632,14.64295106
-Management administration,OpEx,,,2,3.34632,0.597671472
-Port fees,OpEx,,,14,3.34632,4.183700304
-Insurance,OpEx,,,15,3.34632,4.48253604
+Construction Insurance,Financial CapEx,73.62748564,0.0648,4.771061069,3.34632,1.425763546
+Decommissioning,Financial CapEx,184.174246,0.0648,11.93449114,3.34632,3.566452444
+Construction Financing,Financial CapEx,318.6752058,0.0648,20.65015333,3.34632,6.171003769
+Procurement Contingency,Financial CapEx,306.7460129,0.0648,19.87714163,3.34632,5.940000249
+Install. Contingency ,Financial CapEx,368.3484921,0.0648,23.86898229,3.34632,7.132904889
+Project Completion ,Financial CapEx,73.62748564,0.0648,4.771061069,3.34632,1.425763546
+Labor (technicians),OpEx,,,4.952,3.34632,1.479834565
+Materials,OpEx,,,3.714,3.34632,1.109875923
+Equipment (vessels),OpEx,,,60.662,3.34632,18.12797342
+Management administration,OpEx,,,2.476,3.34632,0.739917282
+Port fees,OpEx,,,17.332,3.34632,5.179420976
+Insurance,OpEx,,,18.57,3.34632,5.549379617

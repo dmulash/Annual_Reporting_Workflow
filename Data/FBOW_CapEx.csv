@@ -1,16 +1,16 @@
-﻿CapEx Component,CapEx Category,Value ($2022/kW),Color
-Construction Insurance,Soft Costs,44.20044878,thistle
-Decommissioning,Soft Costs,115.6347014,rebeccapurple
-Construction Financing,Soft Costs,191.8903697,darkviolet
-Procurement Contingency,Soft Costs,182.4573434,mediumorchid
-Install. Contingency,Soft Costs,231.2694028,plum
-Project Completion,Soft Costs,44.20044878,darkmagenta
-Array System,Balance of System,209.5561136,aqua
-Export System,Balance of System,189.1355208,darkturquoise
-Offshore Substation,Balance of System,187.4795121,dodgerblue
-Scour Protection,Balance of System,19.61504238,paleturquoise
-Substructure,Balance of System,589.0979645,darkblue
-Installation,Balance of System,670.3460951,steelblue
-Project,Balance of System,98.28248515,lightskyblue
+﻿CapEx Component,CapEx Category,Value ($/kW),Color
+Construction Insurance,Soft Costs,55.25056098,m
+Decommissioning,Soft Costs,144.5433768,rebeccapurple
+Construction Financing,Soft Costs,239.8629621,darkviolet
+Procurement Contingency,Soft Costs,228.0716793,mediumorchid
+Project Completion,Soft Costs,55.25056098,darkmagenta
+Install. Contingency,Soft Costs,289.0867535,palevioletred
+Array System,Balance of System,251.2301847,deepskyblue
+Export System,Balance of System,226.748583,darkturquoise
+Offshore Substation,Balance of System,242.982797,dodgerblue
+Scour Protection,Balance of System,24.58735009,lightseagreen
+Substructure,Balance of System,763.5003393,darkblue
+Project,Balance of System,123.1965663,lightskyblue
+Installation,Balance of System,830.057744,steelblue
 Lease Price,Balance of System,166.6666667,darkcyan
-Turbine,Turbine,1700,olivedrab
+Turbine,Turbine,1769.87,olivedrab
