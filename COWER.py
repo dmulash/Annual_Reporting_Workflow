@@ -24,14 +24,14 @@ def plot_GPRA_data(fig_name, target, old_target, text_old_target, actuals):
     factor = max_value / 40
     
     # Plot target data with thicker line and circle markers
-    plt.plot(target_years, target_values, color='royalblue', linestyle='--', marker='o', markersize=10, markeredgecolor='black', markerfacecolor='black', linewidth=2, label='GPRA Target')
+    plt.plot(target_years, target_values, color='royalblue', linestyle='--', marker='o', markersize=5, markeredgecolor='black', markerfacecolor='black', linewidth=2, label='GPRA Target', zorder = 10)
     
     # Add text annotations for target data
     for year, value in zip(target_years, target_values):
         plt.text(year, value + factor * 0.9, f'{value:.0f}', fontsize=9, color='black', ha='center', va='bottom')
     
     # Plot actuals data with thicker line and diamond marker
-    plt.plot(actual_years, actual_values, color='grey', linestyle='-', marker='D', markersize=6, markeredgecolor='black',markerfacecolor='black', linewidth=2, label='Actuals')
+    plt.scatter(actual_years, actual_values, marker='D', s=35, edgecolor='black',color='black', linewidth=2, label='Actuals', zorder = 100)
     
     # Add text annotations for actuals data
     for year, value in zip(actual_years, actual_values):

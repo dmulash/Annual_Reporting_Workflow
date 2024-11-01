@@ -1,0 +1,10 @@
+Parameter,Fixed Value ($/kW-yr),Floating Value ($/kW-yr)
+Maintenance,113,69
+  Labor (technicians),5,5
+  Materials,2,4
+  Equipment (vessels),105,61
+Operations,22,38
+  Management administration,2,2
+  Port fees,1,17
+  Insurance,19,19
+Total OpEx,135,107
