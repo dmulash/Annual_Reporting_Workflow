@@ -23,19 +23,23 @@ def plot_GPRA_data(fig_name, target, old_target, text_old_target, actuals):
     # Factor depending on max value
     factor = max_value / 40
     
-    # Plot target data with thicker line and circle markers
-    plt.plot(target_years, target_values, color='royalblue', linestyle='--', marker='o', markersize=5, markeredgecolor='black', markerfacecolor='black', linewidth=2, label='GPRA Target', zorder = 10)
+    # Plot target data without markers for the line
+    plt.plot(target_years, target_values, color='royalblue', linestyle='--', linewidth=2, label='GPRA Target', zorder=10)
+    
+    # Add markers only for the first and last points
+    plt.plot(target_years[0], target_values[0], marker='o', markersize=5, color='royalblue', markeredgecolor='black', markerfacecolor='black', zorder=10)
+    plt.plot(target_years[-1], target_values[-1], marker='o', markersize=5, color='royalblue', markeredgecolor='black', markerfacecolor='black', zorder=10)
     
     # Add text annotations for target data
     for year, value in zip(target_years, target_values):
         plt.text(year, value + factor * 0.9, f'{value:.0f}', fontsize=9, color='black', ha='center', va='bottom')
     
-    # Plot actuals data with thicker line and diamond marker
-    plt.scatter(actual_years, actual_values, marker='D', s=35, edgecolor='black',color='black', linewidth=2, label='Actuals', zorder = 100)
+    # Plot actuals data with smaller diamond marker
+    plt.scatter(actual_years, actual_values, marker='D', s=20, edgecolor='black', color='black', linewidth=2, label='Actuals', zorder=100)
     
     # Add text annotations for actuals data
-    for year, value in zip(actual_years, actual_values):
-        plt.text(year, value + factor * 0.9, f'{value:.0f}', fontsize=9, color='black', ha='center', va='bottom')
+    #for year, value in zip(actual_years, actual_values):
+    #    plt.text(year, value + factor * 0.9, f'{value:.0f}', fontsize=9, color='black', ha='center', va='bottom')
     
     # Plot old_target data with diamond marker
     old_target_value, old_target_year = old_target
@@ -56,10 +60,8 @@ def plot_GPRA_data(fig_name, target, old_target, text_old_target, actuals):
     
     # Define y-ticks based on max_value
     if max_value <= 50:
-        # Generate ticks for max_value ≤ 50
         new_ticks = np.arange(0, max_value + 10, 5)
     else:
-        # Generate ticks for max_value > 50
         new_ticks = np.arange(0, max_value + 20, 10)
     
     plt.yticks(new_ticks)
@@ -75,7 +77,7 @@ def plot_GPRA_data(fig_name, target, old_target, text_old_target, actuals):
     
     plt.tight_layout()
     
-    plt.savefig("Figures/" + fig_name+ '.png', format='png', dpi=300)
+    plt.savefig("Figures/" + fig_name + '.png', format='png', dpi=300)
     
     # Show plot
     plt.show()
