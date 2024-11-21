@@ -3,14 +3,14 @@ Construction Insurance,Soft Costs,55.25056098,m
 Decommissioning,Soft Costs,144.5433768,rebeccapurple
 Construction Financing,Soft Costs,239.8629621,darkviolet
 Procurement Contingency,Soft Costs,228.0716793,mediumorchid
-Project Completion,Soft Costs,55.25056098,darkmagenta
+Commissioning,Soft Costs,55.25056098,darkmagenta
 Install. Contingency,Soft Costs,289.0867535,palevioletred
 Array System,Balance of System,251.2301847,deepskyblue
 Export System,Balance of System,226.748583,darkturquoise
 Offshore Substation,Balance of System,242.982797,dodgerblue
 Scour Protection,Balance of System,24.58735009,lightseagreen
 Substructure,Balance of System,763.5003393,darkblue
-Project,Balance of System,123.1965663,lightskyblue
+Project Development,Balance of System,123.1965663,lightskyblue
 Installation,Balance of System,830.057744,steelblue
 Lease Price,Balance of System,166.6666667,darkcyan
 Turbine,Turbine,1769.87,olivedrab

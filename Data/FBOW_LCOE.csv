@@ -6,14 +6,14 @@ Offshore Substation,Balance of System CapEx,242.982797,0.0676,16.42563708,4.295,
 Scour Protection,Balance of System CapEx,24.58735009,0.0676,1.662104866,4.295,0.386985999
 Substructure,Balance of System CapEx,763.5003393,0.0676,51.61262294,4.295,12.01690872
 Installation,Balance of System CapEx,830.057744,0.0676,56.11190349,4.295,13.06447113
-Project,Balance of System CapEx,123.1965663,0.0676,8.328087882,4.295,1.939019297
+Project Development,Balance of System CapEx,123.1965663,0.0676,8.328087882,4.295,1.939019297
 Lease Price,Balance of System CapEx,166.6667,0.0676,11.26666892,4.295,2.623205802
 Construction Insurance,Financial CapEx,55.25056098,0.0676,3.734937922,4.295,0.869601379
 Decommissioning,Financial CapEx,144.5433768,0.0676,9.771132272,4.295,2.275001693
 Construction Financing,Financial CapEx,239.8629621,0.0676,16.21473624,4.295,3.775258728
 Procurement Contingency,Financial CapEx,228.0716793,0.0676,15.41764552,4.295,3.589672997
 Install. Contingency,Financial CapEx,289.0867535,0.0676,19.54226454,4.295,4.550003385
-Project Completion,Financial CapEx,55.25056098,0.0676,3.734937922,4.295,0.869601379
+Commissioning,Financial CapEx,55.25056098,0.0676,3.734937922,4.295,0.869601379
 Labor (technicians),OpEx,,,4.952,4.295,1.152968568
 Materials,OpEx,,,2.476,4.295,0.576484284
 Equipment (vessels),OpEx,,,105.23,4.295,24.50058207

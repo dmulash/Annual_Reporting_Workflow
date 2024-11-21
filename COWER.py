@@ -24,7 +24,7 @@ def plot_GPRA_data(fig_name, target, old_target, text_old_target, actuals):
     factor = max_value / 40
     
     # Plot target data without markers for the line
-    plt.plot(target_years, target_values, color='royalblue', linestyle='--', linewidth=2, label='GPRA Target', zorder=10)
+    plt.plot(target_years, target_values, color='royalblue', linestyle='--', linewidth=2, marker='o', markeredgecolor='black', markerfacecolor='black', label='GPRA Target', zorder=10)
     
     # Add markers only for the first and last points
     plt.plot(target_years[0], target_values[0], marker='o', markersize=5, color='royalblue', markeredgecolor='black', markerfacecolor='black', zorder=10)
@@ -35,7 +35,7 @@ def plot_GPRA_data(fig_name, target, old_target, text_old_target, actuals):
         plt.text(year, value + factor * 0.9, f'{value:.0f}', fontsize=9, color='black', ha='center', va='bottom')
     
     # Plot actuals data with smaller diamond marker
-    plt.scatter(actual_years, actual_values, marker='D', s=20, edgecolor='black', color='black', linewidth=2, label='Actuals', zorder=100)
+    plt.scatter(actual_years, actual_values, marker='D', s=30, edgecolor='black', color='black', linewidth=2, label='Actuals', zorder=100)
     
     # Add text annotations for actuals data
     #for year, value in zip(actual_years, actual_values):
@@ -172,7 +172,7 @@ def plot_capex_donut(technology, df, start_angle, width, height):
     for category, angle_range in zip(unique_categories, category_angles):
         # Find the midpoint of the angle range
         angle = (angle_range[0] + angle_range[1]) / 2
-        x = np.cos(np.radians(angle)) * 0.4  # Adjusted position inside the donut
+        x = np.cos(np.radians(angle)) * 0.43  # Adjusted position inside the donut
         y = np.sin(np.radians(angle)) * 0.4  # Adjusted position inside the donut
 
         # Get the total percentage for the category
@@ -456,7 +456,7 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     # Setting labels and title
     ax.set_xticks(bar_positions)
     ax.set_xticklabels(bar_labels, rotation=45, ha='right')
-    ax.set_ylabel('Levelized Cost of Energy ($2023/MWh)')
+    ax.set_ylabel('Levelized Cost of Energy (2023$/MWh)')
 
     # Equal aspect ratio ensures that pie is drawn as a circle.
     if "DW" in technology:
@@ -484,7 +484,7 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
 def capex_dataframe_dw(df_20kW, df_100kW, df_1500kW):
     # Initialize the DataFrame structure
     parameters = ['Wind Turbine CapEx', 'BOS CapEx', 'Total CapEx', 'OpEx']
-    units = ['$2023/kW', '$2023/kW', '$2023/kW', '$2023/kW/yr']
+    units = ['2023$/kW', '2023$/kW', '2023$/kW', '2023$/kW/yr']
     
     # Define the DataFrame for the result
     result_df = pd.DataFrame(columns=['Parameter', 'Residential', 'Commercial', 'Large', 'Units'])
