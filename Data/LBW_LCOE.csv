@@ -1,4 +1,4 @@
-﻿CapEx Component,CapEx Category,Value ($/kW),Fixed charge rate (FCR) (real),Value ($/kW-yr),Net AEP (MWh/kW/yr),Value ($/MWh)
+﻿Component,Category,Value ($/kW),Fixed charge rate (FCR) (real),Value ($/kW-yr),Net AEP (MWh/kW/yr),Value ($/MWh)
 Rotor,Turbine,337.4964226,0.065,21.93726747,4.10427024,5.344986121
 Nacelle,Turbine,477.2845448,0.065,31.02349541,4.10427024,7.558833508
 Tower,Turbine,276.0490541,0.065,17.94318852,4.10427024,4.371834082

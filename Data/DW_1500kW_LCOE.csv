@@ -1,4 +1,4 @@
-﻿CapEx Component,CapEx Category,Value ($/kW),Fixed charge rate (FCR) (real),Value ($/kW-yr),Net AEP (MWh/kW/yr),Value ($/MWh)
+﻿Component,Category,Value ($/kW),Fixed charge rate (FCR) (real),Value ($/kW-yr),Net AEP (MWh/kW/yr),Value ($/MWh)
 Wind Turbine CapEx,Turbine,2458.760284,0.0668,164.245187,3.326047402,49.38149315
 BOS CapEx,Balance of System CapEx,903.1599189,0.0668,60.33108258,3.326047402,18.13897257
 OpEx,OpEx,,,40.71128233,3.326047402,12.24013894

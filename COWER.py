@@ -91,15 +91,15 @@ def plot_capex_donut(technology, df, start_angle, width, height):
     df['% of Total'] = (df['Value ($/kW)'] / total_value) * 100
 
     # Calculate total percentage per category
-    category_totals = df.groupby('CapEx Category')['% of Total'].sum()
+    category_totals = df.groupby('Category')['% of Total'].sum()
 
     # Plotting the donut chart
     fig, ax = plt.subplots(figsize=(width, height))
 
     # Extract data for plotting
     sizes = df['% of Total']
-    labels = df['CapEx Component']
-    categories = df['CapEx Category']
+    labels = df['Component']
+    categories = df['Category']
     colors = df['Color']
 
     # Create the donut chart with black borders and specified colors
@@ -112,8 +112,8 @@ def plot_capex_donut(technology, df, start_angle, width, height):
     centre_circle = plt.Circle((0, 0), 0.70, fc='white')
     fig.gca().add_artist(centre_circle)
 
-    # Check the number of "CapEx Components" per "CapEx Category"
-    components_per_category = df.groupby('CapEx Category')['CapEx Component'].count()
+    # Check the number of "Components" per "Category"
+    components_per_category = df.groupby('Category')['Component'].count()
 
     # Add labels with lines pointing to the wedges if there is more than one component per category
     label_offset = 1.25  # Adjusts the distance of the label from the chart
@@ -142,12 +142,12 @@ def plot_capex_donut(technology, df, start_angle, width, height):
             ax.text(x, y, f'{pct:.1f}%', ha='center', va='center', fontsize=10, color='white', weight='bold')
 
     # Add radial lines to separate categories
-    unique_categories = df['CapEx Category'].unique()
+    unique_categories = df['Category'].unique()
     category_angles = []
 
     for category in unique_categories:
         # Calculate the angle range for each category
-        category_size = df[df['CapEx Category'] == category]['% of Total'].sum()
+        category_size = df[df['Category'] == category]['% of Total'].sum()
         end_angle = start_angle + (category_size / 100) * 360
         category_angles.append((start_angle, end_angle))
         start_angle = end_angle
@@ -181,8 +181,8 @@ def plot_capex_donut(technology, df, start_angle, width, height):
         # Add the label inside the donut
         ax.text(x, y, f'{category}\n{total_percentage:.1f}%', ha='center', va='center', fontsize=13, weight='bold', color='black')
 
-    # Add a legend for CapEx Categories
-    category_labels = df['CapEx Category'].unique()
+    # Add a legend for Categories
+    category_labels = df['Category'].unique()
     category_colors = plt.cm.viridis(np.linspace(0, 1, len(category_labels)))
 
     for i, category in enumerate(category_labels):
@@ -297,50 +297,13 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     import numpy as np
     import pandas as pd
     import matplotlib.pyplot as plt
-
-    # Preprocess the DataFrame
-    maintenance_components = ["Labor (technicians)", "Materials", "Equipment (vessels)"]
-    operations_components = ["Management administration", "Insurance", "Port fees"]
-
-    # Replace specific components with 'Maintenance' and 'Operations'
-    df['CapEx Component'] = df['CapEx Component'].replace({
-        **dict.fromkeys(maintenance_components, 'Maintenance'),
-        **dict.fromkeys(operations_components, 'Operations')
-    })
-
-    # Group by 'CapEx Component' and sum the values
-    df_grouped = df.groupby(['CapEx Component', 'CapEx Category']).agg({'Value ($/MWh)': 'sum'}).reset_index()
-
-    # Ensure 'Maintenance' and 'Operations' are aggregated under 'OpEx' category
-    df_grouped['CapEx Category'] = df_grouped['CapEx Component'].apply(
-        lambda x: 'OpEx' if x in ['Maintenance', 'Operations'] else df_grouped[df_grouped['CapEx Component'] == x]['CapEx Category'].values[0]
-    )
-
-    # Aggregate values for 'Maintenance' and 'Operations' under 'OpEx'
-    df_grouped_aggregated = df_grouped.groupby(['CapEx Category', 'CapEx Component']).agg({'Value ($/MWh)': 'sum'}).reset_index()
-
-    # Separate the 'OpEx' components
-    op_ex_components = df_grouped_aggregated[df_grouped_aggregated['CapEx Category'] == 'OpEx']
-    non_op_ex_components = df_grouped_aggregated[df_grouped_aggregated['CapEx Category'] != 'OpEx']
-
-    # Concatenate non-'OpEx' components first, then 'OpEx' components
-    df_non_op_ex = pd.concat([non_op_ex_components], ignore_index=True)
     
-    # Ensure 'Operations' comes before 'Maintenance'
-    df_op_ex_sorted = op_ex_components.sort_values(by='CapEx Component', key=lambda x: x.map({'Operations': 0, 'Maintenance': 1}))
-    df_final = pd.concat([df_non_op_ex, df_op_ex_sorted], ignore_index=True)
+    df_final = df
 
-    # Define the desired order for CapEx Categories
-    category_order = ['Turbine', 'Balance of System CapEx', 'Financial CapEx', 'OpEx', 'Total']
-    
-    # Sort the DataFrame according to the defined order
-    df_final['CapEx Category'] = pd.Categorical(df_final['CapEx Category'], categories=category_order, ordered=True)
-    df_final = df_final.sort_values('CapEx Category')
-
-    # Extract data
-    components = df_final['CapEx Component']
+    # Extract the final components, values, and categories
+    components = df_final['Component']
     values = df_final['Value ($/MWh)']
-    categories = df_final['CapEx Category']
+    categories = df_final['Category']
 
     # Calculate total LCOE
     total_lcoe = values.sum()
@@ -352,7 +315,7 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
 
     # Setup the figure and axes
     fig, ax = plt.subplots(figsize=(width, height))
-    
+
     # Initial bar is set at 0
     bar_positions = np.arange(len(values))
     bar_values = values.tolist()
@@ -480,7 +443,6 @@ def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     plt.savefig("Figures/" + technology + '_LCOE_waterfall.png', format='png', dpi=300)
     plt.show()
 
-
 def capex_dataframe_dw(df_20kW, df_100kW, df_1500kW):
     # Initialize the DataFrame structure
     parameters = ['Wind Turbine CapEx', 'BOS CapEx', 'Total CapEx', 'OpEx']
@@ -494,7 +456,7 @@ def capex_dataframe_dw(df_20kW, df_100kW, df_1500kW):
     # Define a helper function to get the values for each DataFrame
     def get_capex_values(df, component):
         if 'Value ($/kW)' in df.columns:
-            return df[df['CapEx Component'] == component]['Value ($/kW)'].sum()
+            return df[df['Component'] == component]['Value ($/kW)'].sum()
         else:
             raise KeyError("Column 'Value ($/kW)' not found in DataFrame")
 
@@ -502,7 +464,7 @@ def capex_dataframe_dw(df_20kW, df_100kW, df_1500kW):
 
     def get_opex_value(df):
         if 'Value ($/kW-yr)' in df.columns:
-            return df[df['CapEx Component'] == 'OpEx']['Value ($/kW-yr)'].sum()
+            return df[df['Component'] == 'OpEx']['Value ($/kW-yr)'].sum()
         else:
             raise KeyError("Column 'Value ($/kW-yr)' not found in DataFrame")
 
@@ -543,11 +505,11 @@ def capex_dataframe_dw(df_20kW, df_100kW, df_1500kW):
 def capex_dataframe(df):
     summary = []
 
-    for category in df["CapEx Category"].unique()[::-1]:
-        category_df = df[df["CapEx Category"] == category]
+    for category in df["Category"].unique()[::-1]:
+        category_df = df[df["Category"] == category]
         total_value = category_df["Value ($/kW)"].sum()
         summary.append({"Parameter": f"Total {category}", "Value ($/kW)": total_value})
-        summary.extend(category_df[["CapEx Component", "Value ($/kW)"]].rename(columns={"CapEx Component": "Parameter"}).to_dict("records"))
+        summary.extend(category_df[["Component", "Value ($/kW)"]].rename(columns={"Component": "Parameter"}).to_dict("records"))
 
     total_capex = df["Value ($/kW)"].sum()
     summary.append({"Parameter": "Total CapEx", "Value ($/kW)": total_capex})
@@ -596,12 +558,12 @@ def wind_ES_summary_table(rating_landbased_MW, rating_offshore_MW):
          "Commercial (DW)": format_number(dw_100kW_df['Fixed charge rate (FCR) (real)'].mean() * 100, 2), 
          "Large (DW)": format_number(dw_1500kW_df['Fixed charge rate (FCR) (real)'].mean() * 100, 2)},
         {"Parameter": "Operational expenditures (OpEx)", "Units": "$/kW/yr", 
-         "Utility Scale (LBW)": format_number(lbw_df.loc[lbw_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
-         "Utility Scale (FBOW)": format_number(fbow_df.loc[fbow_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
-         "Utility Scale (FLOW)": format_number(flow_df.loc[flow_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
-         "Residential (DW)": format_number(dw_20kW_df.loc[dw_20kW_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
-         "Commercial (DW)": format_number(dw_100kW_df.loc[dw_100kW_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
-         "Large (DW)": format_number(dw_1500kW_df.loc[dw_1500kW_df['CapEx Category'] == 'OpEx', 'Value ($/kW-yr)'].sum())},
+         "Utility Scale (LBW)": format_number(lbw_df.loc[lbw_df['Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Utility Scale (FBOW)": format_number(fbow_df.loc[fbow_df['Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Utility Scale (FLOW)": format_number(flow_df.loc[flow_df['Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Residential (DW)": format_number(dw_20kW_df.loc[dw_20kW_df['Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Commercial (DW)": format_number(dw_100kW_df.loc[dw_100kW_df['Category'] == 'OpEx', 'Value ($/kW-yr)'].sum()), 
+         "Large (DW)": format_number(dw_1500kW_df.loc[dw_1500kW_df['Category'] == 'OpEx', 'Value ($/kW-yr)'].sum())},
         {"Parameter": "Net annual energy production", "Units": "MWh/MW/yr", 
          "Utility Scale (LBW)": format_number(lbw_df['Net AEP (MWh/kW/yr)'][0] * 1000), 
          "Utility Scale (FBOW)": format_number(fbow_df['Net AEP (MWh/kW/yr)'][0] * 1000), 
@@ -669,11 +631,11 @@ def create_offshore_opex_summary_table(fixed_df, floating_df):
     # Function to get the total value for a given item
     def get_total_value(df, item):
         # Ensure the item is correctly specified
-        if 'CapEx Component' in df.columns:
-            values = df[df['CapEx Component'] == item]['Value ($/kW-yr)']
+        if 'Component' in df.columns:
+            values = df[df['Component'] == item]['Value ($/kW-yr)']
             return values.sum() if not values.empty else 0
         else:
-            print("Error: 'CapEx Component' column is missing.")
+            print("Error: 'Component' column is missing.")
             return 0
 
     # Add values for Maintenance and Operations
@@ -711,7 +673,7 @@ def create_landbased_opex_summary_table(df):
     df.columns = df.columns.str.strip()
     
     # Filter out the row with 'Operational Expenditure'
-    operational_expenditures = df[df['CapEx Category'] == 'OpEx']
+    operational_expenditures = df[df['Category'] == 'OpEx']
     
     if operational_expenditures.empty:
         raise ValueError("No Operational Expenditure data found in the DataFrame.")

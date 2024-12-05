@@ -1,4 +1,4 @@
-﻿CapEx Component,CapEx Category,Value ($/kW),Fixed charge rate (FCR) (real),Value ($/kW-yr),Net AEP (MWh/kW/yr),Value ($/MWh)
+﻿Component,Category,Value ($/kW),Fixed charge rate (FCR) (real),Value ($/kW-yr),Net AEP (MWh/kW/yr),Value ($/MWh)
 Turbine,Turbine,1769.87,0.0676,119.643212,3.34632,35.75366731
 Array System,Balance of System CapEx,301.0294505,0.0676,20.34959085,3.34632,6.08118496
 Export System,Balance of System CapEx,171.2503086,0.0676,11.57652086,3.34632,3.459478132
