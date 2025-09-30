@@ -292,6 +292,103 @@ def plot_LCOE_sensitivity(technology, df, width=10, height=6, x_min=None, x_max=
     plt.tight_layout()
     plt.savefig("Figures/" + technology + '_LCOE_sensitivity.png', format='png', dpi=300)
     plt.show()
+    
+def plot_LCOE_sensitivity_percentage(technology, df, width=10, height=6, x_min=None, x_max=None):
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # Reverse the dataframe for proper y-axis ordering
+    df = df[::-1].copy()
+
+    # Calculate the mean base LCOE for the reference line
+    reference_LCOE = df['base LCOE'].mean()
+
+    # Convert LCOE values to percentage change relative to reference
+    df['min_pct'] = (df['min LCOE'] - reference_LCOE) / reference_LCOE * 100
+    df['base_pct'] = (df['base LCOE'] - reference_LCOE) / reference_LCOE * 100
+    df['max_pct'] = (df['max LCOE'] - reference_LCOE) / reference_LCOE * 100
+
+    fig, ax = plt.subplots(figsize=(width, height))
+
+    # Plot min to base percentage bars
+    ax.barh(df['Key Parameters for LCOE Sensitivity Analysis'], 
+            df['base_pct'] - df['min_pct'], 
+            left=df['min_pct'], 
+            color=df['color'], 
+            edgecolor='none', zorder=3)
+
+    # Plot base to max percentage bars
+    ax.barh(df['Key Parameters for LCOE Sensitivity Analysis'], 
+            df['max_pct'] - df['base_pct'], 
+            left=df['base_pct'], 
+            color=df['color'], 
+            edgecolor='none', zorder=3)
+
+    # Add a vertical white line at 0% (reference LCOE)
+    reference_line = ax.axvline(x=0, color='white', linewidth=2, zorder=4)
+    
+    # Adding a legend for the reference LCOE line with a grey background
+    ax.legend([reference_line], [f"Reference LCOE = ${reference_LCOE:,.0f}/MWh"], 
+              loc='best', fontsize=8, frameon=True, facecolor='lightgrey')
+
+    # Adding the min, base, and max values next to their respective bars in reverse order
+    for index in range(len(df)-1, -1, -1):
+        row = df.iloc[index]
+
+        # Format the numbers dynamically based on the input
+        min_value = f"{row['min value']:,.2f}".rstrip('0').rstrip('.')
+        base_value = f"{row['base value']:,.2f}".rstrip('0').rstrip('.')
+        max_value = f"{row['max value']:,.2f}".rstrip('0').rstrip('.')
+
+        # Min value label
+        ax.text(row['min_pct'] - 0.5, index, min_value, 
+                ha='right', va='center', color='black', fontsize=8)
+        
+        # Calculate the differences
+        diff_max_base = row['max_pct'] - row['base_pct']
+        diff_base_min = row['base_pct'] - row['min_pct']
+
+        # Base value label positioning
+        if diff_max_base > diff_base_min:
+            ax.text(row['base_pct'] + 0.2, index, base_value, 
+                    ha='left', va='center', color='white', fontsize=8, weight="bold")
+        else:
+            ax.text(row['base_pct'] - 0.5, index, base_value, 
+                    ha='right', va='center', color='white', fontsize=8, weight="bold")
+
+        # Max value label
+        ax.text(row['max_pct'] + 0.5, index, max_value, 
+                ha='left', va='center', color='black', fontsize=8)
+
+    # Define the x-axis range for separation lines
+    min_xlim = df['min_pct'].min() - 10 if x_min is None else x_min
+    max_xlim = df['max_pct'].max() + 10 if x_max is None else x_max
+
+    # Add horizontal separation lines between bars
+    for index in range(len(df)):
+        ax.hlines(y=index - 0.5, xmin=min_xlim, xmax=max_xlim, color='grey', linestyle='--', linewidth=0.7, zorder=2)
+
+    # Add separation lines before the first bar and after the last bar
+    ax.hlines(y=-0.5, xmin=min_xlim, xmax=max_xlim, color='grey', linestyle='--', linewidth=0.7, zorder=2)
+    ax.hlines(y=len(df) - 0.5, xmin=min_xlim, xmax=max_xlim, color='grey', linestyle='--', linewidth=0.7, zorder=2)
+
+    # Set x-axis limits with an optional buffer
+    ax.set_xlim(min_xlim, max_xlim)
+
+    # Adding grid and labels
+    ax.grid(True, which='both', axis='x', linestyle='--', linewidth=0.7, zorder=0)
+    ax.set_xlabel('Percentage Change with respect to Reference LCOE (%)')
+    ax.set_ylabel('Key Parameters for LCOE Sensitivity Analysis')
+
+    # Remove box lines around the plot
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+
+    plt.tight_layout()
+    plt.savefig("Figures/" + technology + '_LCOE_sensitivity_percentage.png', format='png', dpi=300)
+    plt.show()
 
 def plot_LCOE_waterfall(technology, df, width, height, y_min=None, y_max=None):
     import numpy as np
